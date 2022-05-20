@@ -1,0 +1,64 @@
+<h2>All Food</h2>
+<div style="display: flex; justify-content: space-evenly">
+  <div style="display: flex; flex-direction: column; justify-content: space-around">
+    <ul class="food">
+      <li *ngFor="let food of foodList" [class.selected]="food === selectedFood" (click)="onSelect(food)">
+        <span class="badge">{{food.id}}</span>{{food.name}}
+        <button class="delete" title="delete food"
+                (click)="delete(food)">x
+        </button>
+      </li>
+    </ul>
+    <button mat-raised-button class="filterButton" (click)="getValidFood()">Show not expired food</button>
+  </div>
+  <div class="form">
+    <div>
+      <label for="name">Name:</label>
+      <input id="name" #foodName>
+    </div>
+    <div>
+      <label for="producer">Producer:</label>
+      <input id="producer" #foodProducer>
+    </div>
+    <div>
+      <label for="expirationDate">Expiration Date:</label>
+      <input id="expirationDate" #foodExpirationDate type="date">
+    </div>
+    <button mat-raised-button class="add-button" (click)="add(foodName.value, foodProducer.value, foodExpirationDate.valueAsDate)">Add
+      Food
+    </button>
+  </div>
+  <div *ngIf="petsEatingSelectedFood != undefined && petsEatingSelectedFood.length != 0">
+    <h2>Pets eating food {{selectedFood.name}}</h2>
+    <ul class="cats">
+
+      <li *ngFor="let pet of petsEatingSelectedFood"><span class="badge">{{pet.id}} &nbsp;</span>{{pet.name}}</li>
+    </ul>
+  </div>
+</div>
+<div *ngIf="selectedFood">
+  <h2>{{selectedFood.name | uppercase}} was selected</h2>
+  <div *ngIf="selectedFood" class="formInputFields">
+    <div>
+      <label>
+        Serial number: {{selectedFood.id}}
+      </label>
+    </div>
+    <div>
+      <label>Name: </label>
+      <input [(ngModel)]="selectedFood.name" placeholder="name">
+    </div>
+    <div>
+      <label>Producer: </label>
+      <input [(ngModel)]="selectedFood.producer" placeholder="producer">
+    </div>
+    <div>
+      <label>Expiration Date: </label>
+      <input type="date"
+             [ngModel]="selectedFood.expirationDate | date:'yyyy-MM-dd'"
+             (ngModelChange)="selectedFood.expirationDate = $event"
+             placeholder="expirationDate">
+    </div>
+    <button mat-raised-button class="add-button" (click)="save()">Save</button>
+  </div>
+</div>

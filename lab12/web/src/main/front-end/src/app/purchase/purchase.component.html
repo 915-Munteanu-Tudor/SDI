@@ -1,0 +1,50 @@
+<div style="display: flex; justify-content: space-around">
+  <div style="display: flex; flex-direction: column; justify-content: space-around">
+    <ul class="purchases">
+      <li *ngFor="let purchase of purchases" [class.selected]="purchase === selectedPurchase"
+          (click)="onSelect(purchase)">
+        <span class="badge">{{this.purchase.pet.id}}, {{this.purchase.customer.id}}</span> {{this.purchase.pet.name}} bought by {{this.purchase.customer.name}}
+      </li>
+    </ul>
+    <label>Minimum Review: </label>
+    <input #minReview>
+    <button mat-raised-button (click)="filterWithReview(minReview.value)">Filter By Review</button>
+  </div>
+
+  <div style="display: flex; flex-direction: column">
+    <div style="display: flex; justify-content: space-evenly">
+      <div style="display: flex; flex-direction: column; justify-content: space-around">
+        <ul class="elems">
+          <li *ngFor="let pet of pets" [class.selected]="pet === selectedPet"
+              (click)="onSelectPet(pet)">
+            <span class="badge">{{pet.id}}</span> {{pet.name}}
+          </li>
+        </ul>
+      </div>
+
+      <div class="form">
+        <div>
+          <label for="name">Price:</label>
+          <input id="name" #purchasePrice>
+        </div>
+        <div>
+          <label for="dateAcquired">DateAcquired:</label>
+          <input id="dateAcquired" #dateAcquired type="date">
+        </div>
+        <div>
+          <label for="review">Review: </label>
+          <input id="review" #purchaseReview>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; justify-content: space-around">
+        <ul class="elems">
+          <li *ngFor="let customer of customers" [class.selected]="customer === selectedCustomer"
+              (click)="onSelectCustomer(customer)">
+            <span class="badge">{{customer.id}}</span>{{customer.name}}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <button mat-raised-button class="add-button" title="makePurchase" (click)="makePurchase(purchasePrice.value, dateAcquired.value, purchaseReview.value)">Add Purchase</button>
+  </div>
+</div>

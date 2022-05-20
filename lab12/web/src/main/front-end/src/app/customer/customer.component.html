@@ -1,0 +1,49 @@
+<h2>All Customers</h2>
+<div style="display: flex; justify-content: space-evenly">
+  <div style="display: flex; flex-direction: column; justify-content: space-around">
+    <ul class="customers">
+      <li *ngFor="let customer of customers" [class.selected]="customer === selectedCustomer"
+          (click)="onSelect(customer)">
+        <span class="badge">{{customer.id}}</span>{{customer.name}}
+        <button class="delete" title="delete customer"
+                (click)="delete(customer)">x
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="form">
+    <form #addCustomerForm="ngForm" (ngSubmit)="addCustomerFormMethod(addCustomerForm.value)">
+      <div>
+        <label for="name">Name:</label>
+        <input id="name" name="customerName" ngModel placeholder="name" type="text">
+      </div>
+      <div>
+        <label for="phoneNumber">Phone Number:</label>
+        <input id="phoneNumber" name="customerPhoneNumber" ngModel placeholder="phoneNumber" type="text">
+      </div>
+      <button mat-raised-button class="add-button" type="submit">
+        Add Customer
+      </button>
+    </form>
+  </div>
+</div>
+<div *ngIf="selectedCustomer">
+  <h2>{{selectedCustomer.name | uppercase}} was selected</h2>
+  <div *ngIf="selectedCustomer" class="formInputFields">
+    <div>
+      <label>
+        Serial number: {{selectedCustomer.id}}
+      </label>
+    </div>
+    <div>
+      <label>Name: </label>
+      <input [(ngModel)]="selectedCustomer.name" placeholder="name">
+    </div>
+    <div>
+      <label>PhoneNumber: </label>
+      <input [(ngModel)]="selectedCustomer.phoneNumber" placeholder="phonenumber">
+    </div>
+    <button mat-raised-button class="add-button" (click)="save()">Save</button>
+  </div>
+</div>

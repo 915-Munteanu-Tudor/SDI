@@ -1,0 +1,70 @@
+<h2>Pets</h2>
+<div style="display: flex; justify-content: space-evenly">
+  <div style="display: flex; flex-direction: column; justify-content: space-evenly">
+    <ul class="pets">
+      <li *ngFor="let pet of pets" [class.selected]="pet === selectedPet" (click)="onSelect(pet)">
+        <span class="badge">{{pet.id}}</span>{{pet.name}}
+        <button class="delete" title="delete pet"
+                (click)="delete(pet)">x
+        </button>
+      </li>
+    </ul>
+    <button mat-raised-button class="filterButton" (click)="orderPetsByAge()">Show pets by age</button>
+  </div>
+  <div class="form">
+    <form name="addCat" [formGroup]="addPetForm" (ngSubmit)="addPetForm.valid && onSubmit()">
+      <div>
+        <label for="name">Name:</label>
+        <input id="name" #petName type="text" formControlName="petName"
+               [ngClass]="{'is-invalid': addPetForm.get('petName').touched! && addPetForm.get('petName').invalid!}"
+               required placeholder="name">
+      </div>
+      <div class="invalid-form" *ngIf="addPetForm.get('petName').touched! && addPetForm.get('petName').invalid!">
+        Pet Name is required
+      </div>
+      <div>
+        <label for="breed">Breed:</label>
+        <input id="breed" #petBreed type="text" formControlName="petBreed"
+               [ngClass]="{'is-invalid': addPetForm.get('petBreed').touched! && addPetForm.get('petBreed').invalid!}"
+               required placeholder="breed">
+      </div>
+      <div class="invalid-form" *ngIf="addPetForm.get('petBreed').touched! && addPetForm.get('petBreed').invalid!">
+        Pet breed is required
+      </div>
+      <div>
+        <label for="age">Age:</label>
+        <input id="age" #petAge type="text" formControlName="petYears"
+               [ngClass]="{'is-invalid': addPetForm.get('petYears').touched! && addPetForm.get('petYears').invalid!}"
+               required placeholder="age">
+      </div>
+      <div class="invalid-form" *ngIf="addPetForm.get('petYears').touched! && addPetForm.get('petYears').invalid!">
+        Pet age is required
+      </div>
+      <button mat-raised-button class="add-button" (click)="add(petName.value, petBreed.value, petAge.value)">Add Pet</button>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="selectedPet">
+  <h2>{{selectedPet.name | uppercase}} was selected</h2>
+  <div *ngIf="selectedPet" class="formInputFields">
+    <div>
+      <label>
+        Serial number: {{selectedPet.id}}
+      </label>
+    </div>
+    <div>
+      <label>Name: </label>
+      <input [(ngModel)]="selectedPet.name" placeholder="name">
+    </div>
+    <div>
+      <label>Breed: </label>
+      <input [(ngModel)]="selectedPet.breed" placeholder="breed">
+    </div>
+    <div>
+      <label>Age: </label>
+      <input [(ngModel)]="selectedPet.age" placeholder="age">
+    </div>
+    <button class="add-button" (click)="save()">Save</button>
+  </div>
+</div>
